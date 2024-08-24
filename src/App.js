@@ -17,13 +17,14 @@ function App() {
   const password = localStorage.getItem("password");
   const navi = useNavigate();
   useEffect(() => {
-    setTimeout(() => {
-      console.log(username);
-      if (username === null && password === null) navi("/");
-      else navi("/home");
-      setLoading(false);
-    }, 1000);
+    if (username === null && password === null) navi("/");
+    else {
+      navi("/home");
+    }
   }, []);
+  setTimeout(() => {
+    setLoading(false);
+  }, 800);
 
   return (
     <div className="font-Poppins overflow-hidden flex justify-start bg-blue-50 w-screen h-full">
@@ -45,7 +46,7 @@ function App() {
               <Sidebarr />
             </div>
           )}
-          <div className="w-full h-screen overflow-y-auto">
+          <div className="w-full h-screen overflow-y-auto overflow-x-hidden">
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />

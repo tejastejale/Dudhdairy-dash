@@ -8,13 +8,22 @@ import {
   HiUser,
   HiHome,
 } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 export function Sidebarr() {
+  const navi = useNavigate();
+  const handleSignout = () => {
+    console.log("Signout function triggered");
+    localStorage.clear();
+    setTimeout(() => {
+      navi("/");
+    }, 100);
+  };
   return (
-    <div className="h-[100vh] w-full p-4 rounded-lg">
-      <div className="w-full h-full pb-4 ">
-        <Sidebar aria-label="Default sidebar example" className="">
-          <div className="">
+    <div className="h-screen w-full p-4 rounded-xl">
+      <div className="w-full h-full pb-0 shadow-lg rounded-lg">
+        <Sidebar className="">
+          <div className="h-">
             <Sidebar.Items className="">
               <Sidebar.ItemGroup>
                 <Sidebar.Item icon={HiChartPie} className="cursor-pointer">
@@ -35,8 +44,8 @@ export function Sidebarr() {
                 {/* <Sidebar.Item href="/add-product" icon={HiShoppingBag}>
                   Add Products
                 </Sidebar.Item> */}
-                <Sidebar.Item href="#" icon={HiArrowSmLeft}>
-                  Sign Out
+                <Sidebar.Item icon={HiArrowSmLeft}>
+                  <button onClick={handleSignout}>Sign Out</button>
                 </Sidebar.Item>
               </Sidebar.ItemGroup>
             </Sidebar.Items>
