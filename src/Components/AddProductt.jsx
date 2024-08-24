@@ -78,7 +78,6 @@ function AddProductt() {
               <p className="px-1">Glb File</p>
               <input
                 type="file"
-                multiple
                 className="w-full p-2 px-5 h-fit rounded  "
                 onChange={(e) => setGlbfile([...e.target.files])}
               />

@@ -3,7 +3,7 @@ import Newproduct from "../Components/Addproduct";
 import AddProductt from "../Components/AddProductt";
 function Addproduct() {
   return (
-    <div>
+    <div className=" w-full h-fit pr-2">
       <AddProductt />
     </div>
   );
