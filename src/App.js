@@ -11,7 +11,7 @@ import Customers from "./Screens/Customers";
 import Login from "./Screens/Login";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");

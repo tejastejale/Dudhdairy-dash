@@ -142,21 +142,24 @@ function AddProductt() {
               </div>
             ))}
           </div>
-          <div className="flex gap-5 w-full h-full">
+          <div className="flex justify-end gap-5 w-full h-full">
             <button
-              className="bg-blue-500 px-2 text-white rounded py-2 w-full"
+              className="bg-transparent px-2 text-blue-500 rounded py-2 w-fit"
               onClick={handleAddSize}
             >
-              Add Size
-            </button>
-            <button
-              className="bg-blue-500 px-2 text-white rounded py-2 w-full"
-              onClick={handleAddProduct}
-            >
-              Add Product
+              + Add Size
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="w-full justify-end flex h-fit">
+        <button
+          className="bg-blue-500 px-2 text-white rounded py-2 w-fit self-end"
+          onClick={handleAddProduct}
+        >
+          Add Product
+        </button>
       </div>
     </div>
   );
