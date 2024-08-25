@@ -48,7 +48,7 @@ function AddProductt() {
 
   return (
     <div className="w-full h-full">
-      <div className="bg-blue-200 w-full h-full my-4 p-4 rounded-md">
+      <div className="bg-blue-200 shadow-md w-full h-full my-4 p-4 rounded-md">
         <div className="flex flex-col gap-5">
           <input
             type="text"
