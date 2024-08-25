@@ -15,16 +15,17 @@ function App() {
   const location = useLocation();
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
-  const navi = useNavigate();
-  // useEffect(() => {
-  //   if (username === null && password === null) navi("/");
-  //   else {
-  //     navi("/home");
-  //   }
-  // }, []);
-  // setTimeout(() => {
-  //   setLoading(false);
-  // }, 800);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!username || !password) {
+      navigate("/");
+    } else {
+      if (location.pathname === "/") {
+        navigate("/home");
+      }
+    }
+    setLoading(false);
+  }, [username, password, navigate, location.pathname]);
 
   return (
     <div className="font-Poppins overflow-hidden flex justify-start bg-blue-50 w-screen h-full">
