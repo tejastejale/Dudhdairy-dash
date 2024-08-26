@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 function Table() {
@@ -62,9 +63,23 @@ function Table() {
     setDropdownVisible4(false);
   };
 
+  const [product, setProduct] = React.useState([])
+  async function getProduct() {
+    await axios.get('https://api-dudhdairy.vercel.app/product/products/')
+      .then((res) => {
+        setProduct(res?.data)
+      })
+      .catch((err) => {
+      console.error(err);
+    })
+  }
+  React.useEffect(() => {
+    getProduct()
+  },[])
   return (
     <div className="w-full h-full">
-      <div className="flex flex-row justify-end w-full pb-2">
+      <div className="flex flex-row justify-between w-full pb-2">
+      <h1 className="text-3xl font-bold">Product</h1>
         <a href="/add-product">
           <button className="bg-blue-500 px-6 py-2 rounded-lg text-white font-semibold shadow-lg">
             Add Product
@@ -82,49 +97,60 @@ function Table() {
                 Product name
               </th>
               <th scope="col" className="px-6 py-3">
-                Main Category
+                Subscribeable
               </th>
               <th scope="col" className="px-6 py-3">
-                Category
+                Description
               </th>
               <th scope="col" className="px-6 py-3">
-                Sub-Category
+                Size
               </th>
               <th scope="col" className="px-6 py-3">
-                Stock
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Active Status
+                Edit
               </th>
             </tr>
           </thead>
 
           <tbody>
-            <tr className="bg-white border-b text-center text-md font-semibold dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            {
+              product?.map((item, index) => (
+                <tr key={index} className="bg-white border-b text-center text-md font-semibold dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <th
                 scope="row"
                 className="px-0 py-4 font-medium flex items-center justify-center text-gray-900 whitespace-nowrap dark:text-white"
               >
                 <img
-                  className="bg-blue-500 h-20 w-20 rounded-lg"
-                  alt="Product"
+                  className="h-20 w-20 rounded-lg object-contain"
+                      alt="Product"
+                      src={item.image}
                 />
               </th>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">asjknfm</td>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4">
-                <p className="bg-green-400 py-2 px-3 rounded-full text-white">
-                  90
+              <td className="px-6 py-4">{item?.name}</td>
+              <td className="px-6 py-4">{item?.subable?"Yes":"No"}</td>
+                  <td className="px-6 py-4">
+                    <p className=" text-[10px] text-justify">
+                    {item?.description}
+                    </p>
+                    </td>
+                  <td className="px-8 py-4">
+                    {
+                      item?.size_maps?.map((item, index) => (
+                        <p className="bg-blue-500 mb-1 w-[120px] px-2 py-1 rounded-lg text-white">
+                  {item?.size} | ₹{item?.price}
                 </p>
+                      ))
+                    }
+                
               </td>
               <td className="px-6 py-4">
-                <p className="bg-green-400 py-2 px-3 rounded-full text-white">
-                  Active
-                </p>
+                <button className="bg-blue-500 py-2 px-3 rounded-md text-white">
+                  Edit
+                </button>
               </td>
             </tr>
+              ))
+            }
+            
           </tbody>
         </table>
       </div>

@@ -56,7 +56,7 @@ const customerData = [
   // Add as many customers as needed
 ];
 
-const Customers = () => {
+const Subscription = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
@@ -81,18 +81,13 @@ const Customers = () => {
   };
 
   return (
-    <div className="w-full h-full p-4 flex font-Poppins flex-col gap-5">
-      <h1 className="text-3xl font-bold">Customers</h1>
+      <div className="w-full h-full p-4 flex flex-col gap-5">
+          <h1 className="text-3xl font-bold">Subscription</h1>
       <div className="flex flex-row  justify-start space-x-3">
         <Card
-          name={"Customers"}
+          name={"Subscription"}
           num={customerData.length}
           Icon={IoPeopleSharp}
-        />
-        <Card
-          name={"Total Orders"}
-          num={customerData.reduce((acc, customer) => acc + customer.orders, 0)}
-          Icon={FaTruckRampBox}
         />
       </div>
       <div>
@@ -110,10 +105,13 @@ const Customers = () => {
                   City
                 </th>
                 <th scope="col" className="px-6 py-3">
-                Total Subscription
+                Product
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Total Orders
+                  Quantity
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Subscription Details
                 </th>
               </tr>
             </thead>
@@ -129,6 +127,11 @@ const Customers = () => {
                   <td className="px-6 py-4">{customer.email}</td>
                   <td className="px-6 py-4">{customer.role}</td>
                   <td className="px-6 py-4">{customer.orders}</td>
+                  <td className="px-6 py-4">
+                  <button className="px-3 py-2 bg-blue-500 rounded-lg text-white">
+                              View
+                     </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -170,4 +173,4 @@ const Customers = () => {
   );
 };
 
-export default Customers;
+export default Subscription;

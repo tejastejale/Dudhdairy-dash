@@ -9,15 +9,16 @@ import animationData from "./Static/Images/Animation.json";
 import Addproduct from "./Screens/Addproduct";
 import Customers from "./Screens/Customers";
 import Login from "./Screens/Login";
+import Orders from "./Screens/Orders";
+import Subscription from "./Screens/Subscription";
 
 function App() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const username = localStorage.getItem("username");
-  const password = localStorage.getItem("password");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (!username || !password) {
+    if (token === null) {
       navigate("/");
     } else {
       if (location.pathname === "/") {
@@ -25,7 +26,7 @@ function App() {
       }
     }
     setLoading(false);
-  }, [username, password, navigate, location.pathname]);
+  }, [token, navigate, location.pathname]);
 
   return (
     <div className="font-Poppins overflow-hidden flex justify-start bg-blue-50 w-screen h-full">
@@ -54,6 +55,8 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/add-product" element={<Addproduct />} />
               <Route path="/customers" element={<Customers />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/subscription" element={<Subscription />} />
             </Routes>
           </div>
         </>
