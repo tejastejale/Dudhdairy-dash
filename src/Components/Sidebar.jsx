@@ -9,7 +9,7 @@ import {
   HiHome,
 } from "react-icons/hi";
 import { TbFileInvoice } from "react-icons/tb";
-import { MdOutlineUnsubscribe } from "react-icons/md";
+import { MdOutlineUnsubscribe,MdOutlineDeliveryDining } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 export function Sidebarr() {
@@ -45,6 +45,9 @@ export function Sidebarr() {
                 </Sidebar.Item>
                 <Sidebar.Item href="/subscription" icon={MdOutlineUnsubscribe}>
                 Subscription
+                </Sidebar.Item>
+                <Sidebar.Item href="/vendor" icon={MdOutlineDeliveryDining}>
+                Delivery Boy
                 </Sidebar.Item>
                 <Sidebar.Item icon={HiArrowSmLeft}>
                   <button onClick={handleSignout}>Sign Out</button>

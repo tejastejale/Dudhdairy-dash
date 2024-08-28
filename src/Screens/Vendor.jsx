@@ -3,35 +3,109 @@ import Card from '../Components/Card'
 import { IoPeopleSharp } from 'react-icons/io5'
 import { FaTruckRampBox } from 'react-icons/fa6'
 import axios from 'axios'
+const customerData = [
+    {
+        name: 'Ritesh',
+        phone: '1234567890',
+        email: 'asdn@kmnsdf.com',
+        role: 'Janitor',
+        orders: 90,
+        status: 'Active'
+    },
+    // Add more customer objects here...
+    {
+        name: 'John Doe',
+        phone: '0987654321',
+        email: 'john@example.com',
+        role: 'Manager',
+        orders: 45,
+        status: 'Inactive'
+    },
+    {
+        name: 'Jane Doe',
+        phone: '1231231234',
+        email: 'jane@example.com',
+        role: 'Clerk',
+        orders: 30,
+        status: 'Active'
+    },
+    {
+        name: 'Alex Smith',
+        phone: '9879879870',
+        email: 'alex@example.com',
+        role: 'Cashier',
+        orders: 75,
+        status: 'Inactive'
+    },
+    {
+        name: 'Maria Garcia',
+        phone: '4564564561',
+        email: 'maria@example.com',
+        role: 'Supervisor',
+        orders: 60,
+        status: 'Active'
+    },
+    {
+        name: 'Carlos Rodriguez',
+        phone: '7897897892',
+        email: 'carlos@example.com',
+        role: 'Assistant',
+        orders: 20,
+        status: 'Active'
+    }
+    // Add as many customers as needed
+]
 
-const Orders = () => {
-    const [order, setOrder] = React.useState([])
+const Vendor = () => {
+    const [boy, setBoy] = React.useState([])
     const [show, setShow] = React.useState(false)
-    async function getOrder() {
+    const [data, setData] = React.useState({
+        name: '',
+        mobile_number: '',
+        password: ''
+    })
+    async function getBoy() {
         const token = await localStorage.getItem('token')
         await axios
-            .get('https://api-dudhdairy.vercel.app/order/all/', {
+            .get('https://api-dudhdairy.vercel.app/vendors/', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
             .then((res) => {
-                setOrder(res.data)
+                setBoy(res.data)
+                console.log(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    async function addBoy() {
+        const token = await localStorage.getItem('token')
+        await axios
+            .post('https://api-dudhdairy.vercel.app/create-vendor/', data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then((res) => {
+                setShow(false)
+                getBoy()
             })
             .catch((err) => {
                 console.error(err)
             })
     }
     const [currentPage, setCurrentPage] = useState(1)
-    const [currentItem, setCurrentItem] = useState(0)
-
-    const rowsPerPage = 7
+    const [currentItem, setCurrentItem] = useState(null)
+    const rowsPerPage = 5
 
     const indexOfLastRow = currentPage * rowsPerPage
     const indexOfFirstRow = indexOfLastRow - rowsPerPage
-    const currentRows = order.slice(indexOfFirstRow, indexOfLastRow)
+    const currentRows = boy.slice(indexOfFirstRow, indexOfLastRow)
 
-    const totalPages = Math.ceil(order.length / rowsPerPage)
+    const totalPages = Math.ceil(boy.length / rowsPerPage)
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
@@ -47,20 +121,22 @@ const Orders = () => {
         }
     }
     React.useEffect(() => {
-        getOrder()
+        getBoy()
     }, [])
+
     return (
-        <div className="w-full h-full p-4 flex flex-col gap-5">
+        <div className="w-full h-full p-4 flex font-Poppins flex-col gap-5">
             {show ? (
                 <div class="fixed font-Poppins inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto ">
                     <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
                         <div class="flex items-center pb-3 border-b border-gray-300">
                             <h3 class="text-gray-800 text-xl font-bold flex-1">
-                                Order Details
+                                Delivery Boy Details
                             </h3>
                             <svg
                                 onClick={() => {
                                     setShow(false)
+                                    setCurrentItem(null)
                                 }}
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
@@ -79,55 +155,52 @@ const Orders = () => {
 
                         <div class="my-6">
                             <div>
-                                <h1 className=" font-bold">
-                                    Customer Details:
-                                </h1>
-                            </div>
-                            <div>
-                                <h1 className=" font-bold">Address Details:</h1>
-                                <p className=" text-sm font-medium">
-                                    {
-                                        order[currentItem]?.address
-                                            ?.address_line_1
-                                    }
-                                    ,{' '}
-                                    {
-                                        order[currentItem]?.address
-                                            ?.address_line_2
-                                    }
-                                    , {order[currentItem]?.address?.state},{' '}
-                                    {order[currentItem]?.address?.city} :{' '}
-                                    {order[currentItem]?.address?.zip_code}
-                                </p>
-                            </div>
-                            <div>
-                                <h1 className=" font-bold">Order Details:</h1>
-
-                                {order[currentItem]?.items?.map(
-                                    (item, index) => (
-                                        <div
-                                            className="flex space-x-2 text-sm"
-                                            key={index}
-                                        >
-                                            <h1 className=" font-bold">
-                                                {index + 1}.{' '}
-                                                {item?.product?.name}
-                                            </h1>
-                                            <p>|</p>
-                                            <p className=" font-semibold">
-                                                {item?.quantity} qty
-                                            </p>
-                                            <p>|</p>
-                                            <p className=" font-semibold">
-                                                {item?.size?.size}
-                                            </p>
-                                            <p>|</p>
-                                            <p className=" font-semibold">
-                                                ₹ {item?.total}
-                                            </p>
-                                        </div>
-                                    )
-                                )}
+                                <div className=" space-y-5 mt-5">
+                                    <input
+                                        placeholder="Name"
+                                        value={
+                                            currentItem === null
+                                                ? null
+                                                : boy[currentItem]?.name
+                                        }
+                                        onChange={(e) => {
+                                            setData({
+                                                ...data,
+                                                name: e.target.value
+                                            })
+                                        }}
+                                        className=" w-[100%] border-2 h-[45px] 
+                                          px-2"
+                                    />
+                                    <input
+                                        placeholder="Mobile Number"
+                                        value={
+                                            currentItem === null
+                                                ? null
+                                                : boy[currentItem]
+                                                      ?.mobile_number
+                                        }
+                                        onChange={(e) => {
+                                            setData({
+                                                ...data,
+                                                mobile_number: e.target.value
+                                            })
+                                        }}
+                                        className=" w-[100%] border-2 h-[45px] px-2"
+                                    />
+                                    {currentItem === null ? (
+                                        <input
+                                            placeholder="Password"
+                                            onChange={(e) => {
+                                                setData({
+                                                    ...data,
+                                                    password: e.target.value
+                                                })
+                                            }}
+                                            className=" w-[100%] border-2 h-[45px] px-2"
+                                        />
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
 
@@ -135,28 +208,36 @@ const Orders = () => {
                             <button
                                 onClick={() => {
                                     setShow(false)
+                                    setCurrentItem(null)
                                 }}
                                 type="button"
                                 class="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200"
                             >
                                 Close
                             </button>
+                            <button
+                                onClick={() => {
+                                    addBoy()
+                                }}
+                                type="button"
+                                class="px-4 py-2 rounded-lg text-white font-semibold text-sm border-none outline-none tracking-wide bg-blue-500 "
+                            >
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>
             ) : null}
-            <h1 className="text-3xl font-bold">Orders</h1>
-            <div className="flex flex-row  justify-start space-x-3">
-                <Card
-                    name={"Today's Orders"}
-                    num={order.length}
-                    Icon={IoPeopleSharp}
-                />
-                <Card
-                    name={'Total Orders'}
-                    num={order.length}
-                    Icon={FaTruckRampBox}
-                />
+            <div className="flex flex-row justify-between w-full pb-2">
+                <h1 className="text-3xl font-bold">Delivery Boy</h1>
+                <button
+                    onClick={() => {
+                        setShow(!show)
+                    }}
+                    className="bg-blue-500 px-6 py-2 rounded-lg text-white font-semibold shadow-lg"
+                >
+                    Add Delivery Boy
+                </button>
             </div>
             <div>
                 <div className="relative flex flex-col overflow-x-auto shadow-md sm:rounded-lg">
@@ -164,19 +245,13 @@ const Orders = () => {
                         <thead className="text-xs w-full justify-evenly sticky top-0 table-fixed z-10 uppercase bg-blue-500 text-white dark:bg-gray-700 dark:text-gray-400">
                             <tr className="sticky z-10 top-0 table-fixed text-center">
                                 <th scope="col" className="px-6 py-3">
-                                    Transaction Id
+                                    name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Amount
+                                    Phone
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Payment Status
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Orders Status
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Order Details
+                                    View
                                 </th>
                             </tr>
                         </thead>
@@ -188,37 +263,10 @@ const Orders = () => {
                                     className="bg-white border-b text-center text-md font-semibold dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                 >
                                     <td className="px-6 py-4">
-                                        {customer?.transaction_id}
+                                        {customer.name}
                                     </td>
                                     <td className="px-6 py-4">
-                                        ₹{customer?.total_amount}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <button
-                                            className={`${
-                                                customer?.status === 'pending'
-                                                    ? ' bg-yellow-300'
-                                                    : 'bg-green-500'
-                                            } px-3 py-1 rounded-md text-white`}
-                                        >
-                                            {customer?.status === 'pending'
-                                                ? 'Pending'
-                                                : 'Done'}
-                                        </button>
-                                    </td>
-                                    {/* <td className="px-6 py-4">{customer.role}</td> */}
-                                    <td className="px-6 py-4">
-                                        <button
-                                            className={`${
-                                                customer?.is_delivered
-                                                    ? ' bg-green-500'
-                                                    : 'bg-red-500'
-                                            } px-3 py-1 rounded-md text-white`}
-                                        >
-                                            {customer?.is_delivered
-                                                ? 'Delivered'
-                                                : 'Not Delivered'}
-                                        </button>
+                                        {customer.mobile_number}
                                     </td>
                                     <td className="px-6 py-4">
                                         <button
@@ -226,7 +274,7 @@ const Orders = () => {
                                                 setShow(!show)
                                                 setCurrentItem(index)
                                             }}
-                                            className="px-3 py-2 bg-blue-500 rounded-lg text-white"
+                                            className="bg-blue-500 py-2 px-3 rounded-md text-white"
                                         >
                                             View
                                         </button>
@@ -272,4 +320,4 @@ const Orders = () => {
     )
 }
 
-export default Orders
+export default Vendor

@@ -11,6 +11,7 @@ import Customers from "./Screens/Customers";
 import Login from "./Screens/Login";
 import Orders from "./Screens/Orders";
 import Subscription from "./Screens/Subscription";
+import Vendor from "./Screens/Vendor";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,7 @@ function App() {
               <Route path="/customers" element={<Customers />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/subscription" element={<Subscription />} />
+              <Route path="/vendor" element={<Vendor />} />
             </Routes>
           </div>
         </>
